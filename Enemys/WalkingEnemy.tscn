@@ -1,0 +1,74 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Textures/characters_packed.png" type="Texture" id=1]
+[ext_resource path="res://Enemys/WalkingEnemy.gd" type="Script" id=2]
+[ext_resource path="res://Hitboxs/Hitbox.tscn" type="PackedScene" id=3]
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 1 )
+region = Rect2( 192, 24, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 1 )
+region = Rect2( 144, 24, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 168, 24, 24, 24 )
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ SubResource( 5 ) ],
+"loop": true,
+"name": "Hide",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 1 ), SubResource( 2 ) ],
+"loop": true,
+"name": "Walking",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 4.5, 3.5 )
+
+[node name="WalkingEnemy" type="KinematicBody2D"]
+collision_layer = 2
+script = ExtResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -9 )
+scale = Vector2( 0.75, 0.75 )
+frames = SubResource( 3 )
+animation = "Walking"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.5, -3.541 )
+shape = SubResource( 4 )
+
+[node name="PlayerCheck" type="RayCast2D" parent="."]
+position = Vector2( 0, -10 )
+enabled = true
+cast_to = Vector2( 0, -20 )
+collision_mask = 2
+
+[node name="LedgeCheckRight" type="RayCast2D" parent="."]
+position = Vector2( 3, -1 )
+scale = Vector2( 2, 2 )
+enabled = true
+cast_to = Vector2( 0, 4 )
+
+[node name="LedgeCheckLeft" type="RayCast2D" parent="."]
+position = Vector2( -4, -1 )
+scale = Vector2( 2, 2 )
+enabled = true
+cast_to = Vector2( 0, 4 )
+
+[node name="Hitbox" parent="." instance=ExtResource( 3 )]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hitbox"]
+position = Vector2( 0.2, 0 )
+polygon = PoolVector2Array( -6.2, -1, -6.2, -8, -3.2, -10, -1, -11, -1, -13, -0.2, -13, -0.2, -11, 2, -10, 5, -8, 5, -1 )
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
