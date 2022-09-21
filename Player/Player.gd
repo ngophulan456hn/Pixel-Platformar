@@ -43,6 +43,9 @@ func  _physics_process(delta):
 			move_state(input, delta)
 		CLIMB:
 			climb_state(input, delta)
+			
+	if not is_on_floor():
+		fall_to_dead()
 		
 func move_state(input: Vector2, delta):
 	if is_on_ladder() and Input.is_action_just_pressed("ui_up"):
@@ -159,6 +162,10 @@ func player_die():
 func connect_camera(camera):
 	var camera_path = camera.get_path()
 	remoteTransform2D.remote_path = camera_path
+	
+func fall_to_dead():
+	if velocity.y > 800:
+		player_die()
 
 func _on_JumpBufferTimer_timeout():
 	buffered_jump = false

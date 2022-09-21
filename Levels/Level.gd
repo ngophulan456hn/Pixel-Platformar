@@ -26,3 +26,4 @@ func _on_player_died():
 func _on_hit_checkpoint(checkpoint_position):
 	player_spawn_location = checkpoint_position
 	player_spawn_location.y -= 10
+	
